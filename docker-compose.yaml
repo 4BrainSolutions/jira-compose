@@ -12,11 +12,6 @@ services:
     ports:
       - '8100:8080'
     environment:
-      - 'ATL_JDBC_URL=postgresql://postgresql/jiradb'
-      - 'ATL_JDBC_USER=jirauser'
-      # Change password
-      - 'ATL_JDBC_PASSWORD=jellyfish'
-      - 'ATL_DB_DRIVER=org.postgresql.Driver'
       - 'SETENV_JVM_MINIMUM_MEMORY=2048m'
       - 'SETENV_JVM_MAXIMUM_MEMORY=4096m'
       - 'ATL_TOMCAT_SCHEME=https'
