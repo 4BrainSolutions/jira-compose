@@ -8,17 +8,19 @@ services:
     networks:
       - jiranet
     volumes:
-      - jira_data:/var/atlassian/jira
+      - jira_data:/var/atlassian/application-data/jira
     ports:
       - '8100:8080'
     environment:
-      - 'JIRA_DATABASE_URL=postgresql://jirauser@postgresql/jiradb'
+      - 'ATL_JDBC_URL=postgresql://postgresql/jiradb'
+      - 'ATL_JDBC_USER=jirauser'
       # Change password
-      - 'JIRA_DB_PASSWORD=jellyfish'
+      - 'ATL_JDBC_PASSWORD=jellyfish'
+      - 'ATL_DB_DRIVER=org.postgresql.Driver'
       - 'SETENV_JVM_MINIMUM_MEMORY=2048m'
       - 'SETENV_JVM_MAXIMUM_MEMORY=4096m'
-      - 'JIRA_PROXY_PORT=443'
-      - 'JIRA_PROXY_SCHEME=https'
+      - 'ATL_TOMCAT_SCHEME=https'
+      - 'ATL_TOMCAT_SECURE=true'
     logging:
       # limit logs retained on host to 25MB
       driver: "json-file"
