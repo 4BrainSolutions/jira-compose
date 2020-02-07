@@ -1,0 +1,58 @@
+version: '2'
+
+services:
+  jira:
+    depends_on:
+      - postgresql
+    image: atlassian/jira-software:8.6.1
+    networks:
+      - jiranet
+    volumes:
+      - jira_data:/var/atlassian/jira
+    ports:
+      - '8100:8080'
+    environment:
+      - 'JIRA_DATABASE_URL=postgresql://jirauser@postgresql/jiradb'
+      # Change password
+      - 'JIRA_DB_PASSWORD=jellyfish'
+      - 'SETENV_JVM_MINIMUM_MEMORY=2048m'
+      - 'SETENV_JVM_MAXIMUM_MEMORY=4096m'
+      - 'JIRA_PROXY_PORT=443'
+      - 'JIRA_PROXY_SCHEME=https'
+    logging:
+      # limit logs retained on host to 25MB
+      driver: "json-file"
+      options:
+        max-size: "500k"
+        max-file: "50"
+
+  postgresql:
+    image: postgres:10.11
+    networks:
+      - jiranet
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    environment:
+      - 'POSTGRES_USER=jirauser'
+      # CHANGE THE PASSWORD!
+      - 'POSTGRES_PASSWORD=jellyfish'
+      - 'POSTGRES_DB=jiradb'
+      - 'POSTGRES_ENCODING=UNICODE'
+      - 'POSTGRES_COLLATE=C'
+      - 'POSTGRES_COLLATE_TYPE=C'
+    logging:
+      # limit logs retained on host to 25MB
+      driver: "json-file"
+      options:
+        max-size: "500k"
+        max-file: "50"
+
+volumes:
+  jira_data:
+    external: false
+  postgresql_data:
+    external: false
+
+networks:
+  jiranet:
+    driver: bridge
