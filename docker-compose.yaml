@@ -16,6 +16,7 @@ services:
       - 'SETENV_JVM_MAXIMUM_MEMORY=4096m'
       - 'ATL_TOMCAT_SCHEME=https'
       - 'ATL_TOMCAT_SECURE=true'
+    restart: always
     logging:
       # limit logs retained on host to 25MB
       driver: "json-file"
@@ -37,6 +38,7 @@ services:
       - 'POSTGRES_ENCODING=UNICODE'
       - 'POSTGRES_COLLATE=C'
       - 'POSTGRES_COLLATE_TYPE=C'
+    restart: always
     logging:
       # limit logs retained on host to 25MB
       driver: "json-file"
