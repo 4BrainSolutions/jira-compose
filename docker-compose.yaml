@@ -5,12 +5,10 @@ services:
     depends_on:
       - postgresql
     image: atlassian/jira-software:8.6.1
-    networks:
-      - jiranet
     volumes:
       - jira_data:/var/atlassian/application-data/jira
     ports:
-      - '8100:8080'
+      - '127.0.0.1:8100:8080'
     environment:
       - 'SETENV_JVM_MINIMUM_MEMORY=2048m'
       - 'SETENV_JVM_MAXIMUM_MEMORY=4096m'
@@ -26,8 +24,6 @@ services:
 
   postgresql:
     image: postgres:10.11
-    networks:
-      - jiranet
     volumes:
       - postgresql_data:/var/lib/postgresql/data
     environment:
@@ -51,7 +47,3 @@ volumes:
     external: false
   postgresql_data:
     external: false
-
-networks:
-  jiranet:
-    driver: bridge
